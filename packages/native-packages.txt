@@ -18,6 +18,7 @@ intel-media-driver
 intel-ucode
 iwd
 kitty
+less
 libva-intel-driver
 linux
 linux-firmware
