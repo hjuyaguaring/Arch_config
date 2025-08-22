@@ -32,6 +32,7 @@ qt5-wayland
 qt6-wayland
 slurp
 smartmontools
+ttf-jetbrains-mono-nerd
 uwsm
 vim
 vulkan-intel
@@ -48,3 +49,4 @@ xf86-video-nouveau
 xorg-server
 xorg-xinit
 zram-generator
+zsh

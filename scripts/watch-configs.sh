@@ -36,12 +36,11 @@ run_backup() {
     $HOME/docfiles/scripts/backup.sh
     git add . 2>/dev/null
     git commit -m "Auto-backup: $(date '+%Y-%m-%d %H:%M:%S')" 2>/dev/null
-    echo -e "${GREEN}✅ Respaldo automático completado${NC}"
+    echo -e "${GREEN} Respaldo automatico completado${NC}"
 }
 
 # Monitoreo continuo con inotifywait
 while true; do
-    # Usar inotifywait para monitorear cambios
     if command -v inotifywait &> /dev/null; then
         inotifywait -q -r -e modify,create,delete,move \
             "${WATCH_DIRS[@]}" \
@@ -50,7 +49,7 @@ while true; do
             run_backup
         done
     else
-        echo -e "${RED} inotifywait no está instalado. Instálalo con:${NC}"
+        echo -e "${RED} inotifywait no esta instalado. Instalalo con:${NC}"
         echo -e "${YELLOW}sudo pacman -S inotify-tools${NC}"
         echo -e "${YELLOW}Monitoreo simple cada 60 segundos...${NC}"
         
