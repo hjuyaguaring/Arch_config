@@ -1,0 +1,47 @@
+# Archivos temporales
+*.swp
+*.swo
+*~
+.nohup.out
+
+# Cache y logs
+.cache/
+.logs/
+logs/
+*.log
+
+# Credenciales
+*.env
+.secrets/
+ssh/
+*.key
+*.pem
+id_rsa*
+*.token
+
+# Backup files
+*.bak
+*.old
+
+# Paquetes instalados localmente
+*.pkg.tar.*
+
+# Historial
+.bash_history
+.zsh_history
+
+# Datos de aplicaciones
+.local/share/Trash/
+.thumbnails/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+.lock
+*lock*
+
+# No subir configuración de backup
+scripts/backup-config.conf
+
+# Archivos de bloqueo de git
+.git/index.lock
