@@ -33,7 +33,7 @@ HOME_FILES=("$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.xprofile" "$HOME/.profile")
 # Función para ejecutar backup
 run_backup() {
     echo -e "${BLUE} Cambios detectados, ejecutando respaldo...${NC}"
-    $HOME/dotfiles/scripts/backup.sh
+    $HOME/docfiles/scripts/backup.sh
     git add . 2>/dev/null
     git commit -m "Auto-backup: $(date '+%Y-%m-%d %H:%M:%S')" 2>/dev/null
     echo -e "${GREEN}✅ Respaldo automático completado${NC}"
