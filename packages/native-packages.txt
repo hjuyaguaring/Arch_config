@@ -2,6 +2,7 @@ base
 base-devel
 bluez
 bluez-utils
+brightnessctl
 dolphin
 dunst
 efibootmgr
@@ -32,12 +33,14 @@ qt5-wayland
 qt6-wayland
 slurp
 smartmontools
+swaync
 ttf-jetbrains-mono-nerd
 uwsm
 vim
 vulkan-intel
 vulkan-nouveau
 vulkan-radeon
+waybar
 wget
 wireless_tools
 wofi
