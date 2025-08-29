@@ -1,23 +1,24 @@
 #!/bin/bash
 
-echo "Iniciando instalacion de configuraciones..."
+echo "Iniciando instalación de configuraciones..."
 
-# Lista de configuraciones a instalar
-configs=("hypr" "kitty")
+# Archivo de configuración
+CONFIG_FILE="$HOME/docfiles/scripts/backup-config.conf"
+source "$CONFIG_FILE"
 
-for config in "${configs[@]}"; do
-    if [ -d ~/docfiles/config/$config ]; then
+for config in "${CONFIG_DIRS[@]}"; do
+    if [ -d "$HOME/docfiles/config/$config" ]; then
         # Crear backup si ya existe
-        if [ -d ~/.config/$config ]; then
+        if [ -d "$HOME/.config/$config" ]; then
             backup_dir="$HOME/.config/${config}.bak.$(date +%Y%m%d_%H%M%S)"
             mv ~/.config/$config "$backup_dir"
-            echo " Backup de $config creado en: $backup_dir"
+            echo "✓ Backup de $config creado en: $backup_dir"
         fi
         # Crear enlace simbólico
         ln -sf ~/docfiles/config/$config ~/.config/
-        echo " $config instalada"
+        echo "✓ $config instalada"
     else
-        echo " $config no existe en docfiles, omitiendo"
+        echo "⚠ $config no existe en docfiles, omitiendo"
     fi
 done
 
@@ -25,4 +26,4 @@ done
 [ -f ~/docfiles/.zshrc ] && ln -sf ~/docfiles/.zshrc ~/
 [ -f ~/docfiles/.bashrc ] && ln -sf ~/docfiles/.bashrc ~/
 
-echo "Instalacion completada!"
+echo "Instalación completada!"

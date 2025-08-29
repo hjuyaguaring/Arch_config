@@ -1,67 +1,87 @@
 #!/bin/bash
 
-# Colores para output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
-echo -e "${BLUE}=== MONITOR DE CONFIGURACIONES INICIADO ===${NC}"
-echo -e "${YELLOW}Monitoreando cambios en configuraciones...${NC}"
-echo -e "${YELLOW}Presiona Ctrl+C para detener${NC}"
-
-# Archivo de configuración
 CONFIG_FILE="$HOME/docfiles/scripts/backup-config.conf"
-source "$CONFIG_FILE"
 
-# Directorios a monitorear
-WATCH_DIRS=()
-for dir in "${CONFIG_DIRS[@]}"; do
-    WATCH_DIRS+=("$HOME/.config/$dir")
-done
-
-for file in "${CONFIG_FILES[@]}"; do
-    if [ -n "$file" ]; then
-        WATCH_DIRS+=("$HOME/.config/$file")
-    fi
-done
-
-# Archivos importantes del home
-HOME_FILES=("$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.xprofile" "$HOME/.profile")
-
-# Función para ejecutar backup
-run_backup() {
-    echo -e "${BLUE} Cambios detectados, ejecutando respaldo...${NC}"
-    $HOME/docfiles/scripts/backup.sh
-    git add . 2>/dev/null
-    git commit -m "Auto-backup: $(date '+%Y-%m-%d %H:%M:%S')" 2>/dev/null
-    echo -e "${GREEN} Respaldo automatico completado${NC}"
+show_help() {
+    echo "Uso: $0 [add|remove|list|edit] [nombre]"
+    echo "  add [nombre]    - Añadir directorio"
+    echo "  remove [nombre] - Remover directorio"
+    echo "  list            - Mostrar configuración actual"
+    echo "  edit            - Editar manualmente el archivo de configuración"
 }
 
-# Monitoreo continuo con inotifywait
-while true; do
-    if command -v inotifywait &> /dev/null; then
-        inotifywait -q -r -e modify,create,delete,move \
-            "${WATCH_DIRS[@]}" \
-            "${HOME_FILES[@]}" \
-            2>/dev/null | while read line; do
-            run_backup
-        done
-    else
-        echo -e "${RED} inotifywait no esta instalado. Instalalo con:${NC}"
-        echo -e "${YELLOW}sudo pacman -S inotify-tools${NC}"
-        echo -e "${YELLOW}Monitoreo simple cada 60 segundos...${NC}"
-        
-        # Monitoreo simple por intervalos
-        LAST_HASH=$(find "${WATCH_DIRS[@]}" "${HOME_FILES[@]}" -type f -exec md5sum {} \; 2>/dev/null | sort | md5sum)
-        while true; do
-            sleep 60
-            CURRENT_HASH=$(find "${WATCH_DIRS[@]}" "${HOME_FILES[@]}" -type f -exec md5sum {} \; 2>/dev/null | sort | md5sum)
-            if [ "$LAST_HASH" != "$CURRENT_HASH" ]; then
-                LAST_HASH="$CURRENT_HASH"
-                run_backup
-            fi
-        done
+add_config() {
+    name=$1
+    
+    if [ -z "$name" ]; then
+        echo "Error: Debes especificar un nombre"
+        exit 1
     fi
-done
+    
+    source "$CONFIG_FILE"
+    
+    if [[ " ${CONFIG_DIRS[@]} " =~ " ${name} " ]]; then
+        echo "El directorio $name ya está en la lista"
+    else
+        CONFIG_DIRS+=("$name")
+        echo "CONFIG_DIRS=(${CONFIG_DIRS[@]})" > "$CONFIG_FILE"
+        echo "CONFIG_FILES=()" >> "$CONFIG_FILE"
+        echo "✅ Directorio $name añadido"
+    fi
+}
+
+remove_config() {
+    name=$1
+    
+    source "$CONFIG_FILE"
+    
+    new_dirs=()
+    for dir in "${CONFIG_DIRS[@]}"; do
+        if [ "$dir" != "$name" ]; then
+            new_dirs+=("$dir")
+        fi
+    done
+    CONFIG_DIRS=("${new_dirs[@]}")
+    echo "CONFIG_DIRS=(${CONFIG_DIRS[@]})" > "$CONFIG_FILE"
+    echo "CONFIG_FILES=()" >> "$CONFIG_FILE"
+    echo "✅ Directorio $name removido"
+}
+
+list_config() {
+    if [ ! -f "$CONFIG_FILE" ]; then
+        echo "❌ Archivo de configuración no encontrado: $CONFIG_FILE"
+        echo "💡 Ejecuta primero: ~/docfiles/scripts/backup.sh"
+        exit 1
+    fi
+    
+    source "$CONFIG_FILE"
+    echo "📁 Directorios en lista de backup:"
+    echo ""
+    for dir in "${CONFIG_DIRS[@]}"; do
+        if [ -d "$HOME/.config/$dir" ]; then
+            echo "  • $dir ✅ (existe en sistema)"
+        elif [ -d "$HOME/docfiles/config/$dir" ]; then
+            echo "  • $dir 📦 (solo en backup)"
+        else
+            echo "  • $dir ❌ (no existe en ningún lado)"
+        fi
+    done
+}
+
+case "$1" in
+    add)
+        add_config "$2"
+        ;;
+    remove)
+        remove_config "$2"
+        ;;
+    list)
+        list_config
+        ;;
+    edit)
+        nano "$CONFIG_FILE"
+        ;;
+    *)
+        show_help
+        ;;
+esac

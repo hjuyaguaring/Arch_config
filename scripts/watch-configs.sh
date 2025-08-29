@@ -21,22 +21,16 @@ for dir in "${CONFIG_DIRS[@]}"; do
     WATCH_DIRS+=("$HOME/.config/$dir")
 done
 
-for file in "${CONFIG_FILES[@]}"; do
-    if [ -n "$file" ]; then
-        WATCH_DIRS+=("$HOME/.config/$file")
-    fi
-done
-
 # Archivos importantes del home
 HOME_FILES=("$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.xprofile" "$HOME/.profile")
 
 # Función para ejecutar backup
 run_backup() {
-    echo -e "${BLUE} Cambios detectados, ejecutando respaldo...${NC}"
+    echo -e "${BLUE}🔄 Cambios detectados, ejecutando respaldo...${NC}"
     $HOME/docfiles/scripts/backup.sh
     git add . 2>/dev/null
     git commit -m "Auto-backup: $(date '+%Y-%m-%d %H:%M:%S')" 2>/dev/null
-    echo -e "${GREEN} Respaldo automatico completado${NC}"
+    echo -e "${GREEN}✅ Respaldo automático completado${NC}"
 }
 
 # Monitoreo continuo con inotifywait
@@ -49,7 +43,7 @@ while true; do
             run_backup
         done
     else
-        echo -e "${RED} inotifywait no esta instalado. Instalalo con:${NC}"
+        echo -e "${RED}⚠ inotifywait no está instalado. Instálalo con:${NC}"
         echo -e "${YELLOW}sudo pacman -S inotify-tools${NC}"
         echo -e "${YELLOW}Monitoreo simple cada 60 segundos...${NC}"
         
