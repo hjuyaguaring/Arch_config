@@ -1,30 +1,133 @@
 {
-    "layer": "top",
-    "position": "top",
-    "height": 36,
-    "spacing": 4,
-    "modules-left": [
-        "custom/arch",
-        "hyprland/workspaces"
+  "include": [
+    "~/.config/waybar/modules.json"
+  ],
+  "layer": "top",
+  "position": "top",
+  "height": 14,
+  "spacing": 1,
+  "margin-top": 1,
+  "margin-bottom": 0,
+  "margin-left": 0,
+  "margin-right": 0,
+  "gtk-layer-shell": true,
+  "reload_style_on_change": true,
+  "modules-left": [
+    "custom/arch",
+    "hyprland/workspaces",
+  ],
+  "modules-center": [
+    "custom/music-visualizer-3d",
+    "custom/center-placeholder"
+  ],
+  "modules-right": [
+    "custom/system-stats",
+    "custom/bluetooth-enhanced",
+    "pulseaudio",
+    "bluetooth",
+    "clock",
+    "battery",
+    "tray",
+    "custom/notification",
+    "custom/power"
+  ],
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "disable-scroll": false,
+    "active-only": false,
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "urgent": "",
+      "default": ""
+    }
+  },
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 25,
+    "separate-outputs": true
+  },
+  "mpris": {
+    "player": "spotify",
+    "dynamic-order": [
+      "artist",
+      "title"
     ],
-    "modules-center": [
-        "hyprland/window"
-    ],
-    "modules-right": [
-        "idle_inhibitor",
-        "pulseaudio",
-        "network",
-        "cpu",
-        "memory",
-        "temperature",
-        "hyprland/language",
-        "backlight",
-        "battery",
-        "battery#bat2",
-        "clock",
-        "custom/power"
-    ],
-    "include": [
-        "~/.config/waybar/modules.json"
-    ]
+    "format": "{player_icon} {dynamic}",
+    "format-paused": "{status_icon} <i>{dynamic}</i>",
+    "status-icons": {
+      "paused": ""
+    },
+    "player-icons": {
+      "default": ""
+    }
+  },
+  "clock": {
+    "format": " {:%H:%M}",
+    "tooltip": true,
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "on-click": "gnome-calendar",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#89b4fa'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'>{}</span>",
+        "today": "<span color='#f38ba8'><b><u>{}</u></b></span>",
+        "weekdays": "<span color='#f9e2af'><b>{}</b></span>",
+        "weeks": "<span color='#a6e3a1'><b>W{}</b></span>"
+      }
+    }
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " Muted",
+    "format-icons": {
+      "headphone": " ",
+      "default": [
+        " ",
+        " ",
+        " "
+      ]
+    },
+    "on-click": "pavucontrol",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+    "smooth-scrolling-threshold": 1,
+    "scroll-step": 5
+  },
+  "bluetooth": {
+    "format": " ",
+    "format-disabled": "󰂳",
+    "format-connected": "󰂱 {num_connections}",
+    "tooltip-format": " {device_alias}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": " {device_alias} 󰂄{device_battery_percentage}%",
+    "tooltip": true,
+    "on-click": "blueman-manager"
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 5,
+    "show-passive-items": true
+  },
+  "custom/notification": {
+    "escape": true,
+    "exec": "swaync-client -swb",
+    "exec-if": "which swaync-client",
+    "format": "{icon}",
+    "format-icons": {
+      "none": "󰅺",
+      "notification": "󰡟"
+    },
+    "on-click": "sleep 0.1 && swaync-client -t -sw",
+    "return-type": "json",
+    "tooltip": false
+  }
 }

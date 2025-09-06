@@ -149,7 +149,7 @@ keymap('n', 'cf', ':CheckKeymapsFiles<CR>', { desc = 'Check file keymap duplicat
 
 
 -- Diagnósticos
-keymap('n', '<C-x>', function()
+keymap('n', '<C-j>', function()
   vim.diagnostic.goto_next()
 end, opts)
 

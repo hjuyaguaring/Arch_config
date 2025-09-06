@@ -1,12 +1,66 @@
 {
   "custom/arch": {
     "format": "",
-    "tooltip": true,
-    "tooltip-format": "btw"
+    "tooltip": false
   },
   "custom/power": {
     "format": "⏻",
-    "on-click": "wlogout",
+    "tooltip": true,
+    "tooltip-format": "Session Menu\nClick for options",
+    "on-click": "bash -c 'echo \"Opción seleccionada: Apagar, Reiniciar, etc.\"'",
+    "on-enter": "notify-send 'Power Menu' 'Click para opciones de energía'",
+    "on-leave": "notify-send 'Power Menu' 'Menú oculto'"
+  },
+  "custom/bluetooth-enhanced": {
+    "exec": "python ~/.config/waybar/scripts/bluetooth-enhanced.py",
+    "return-type": "json",
+    "format": "{text}",
+    "interval": 3,
+    "on-click": "python ~/.config/waybar/scripts/bluetooth-enhanced.py 1",
+    "on-click-middle": "python ~/.config/waybar/scripts/bluetooth-enhanced.py 2",
+    "on-click-right": "python ~/.config/waybar/scripts/bluetooth-enhanced.py 3",
+    "tooltip": true,
+    "signal": 8
+  },
+  "custom/music-visualizer-3d": {
+    "exec": "python ~/.config/waybar/scripts/music-visualizer-3d.py",
+    "return-type": "json",
+    "format": "{text}",
+    "interval": 0.3,
+    "tooltip": true,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-click-middle": "playerctl previous"
+  },
+  "custom/playerctl": {
+    "format": "<span>{}</span>",
+    "return-type": "json",
+    "max-length": 25,
+    "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}}  {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click-middle": "playerctl play-pause",
+    "on-click": "playerctl previous",
+    "on-click-right": "playerctl next",
+    "scroll-step": 5.0,
+    "on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
+    "on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec",
+    "smooth-scrolling-threshold": 1
+  },
+  "custom/center-placeholder": {
+    "format": "⏤",
+    "tooltip": false,
+    "on-click": "notify-send 'Espacio Central' 'Este espacio está reservado para futuras funcionalidades'"
+  },
+  "custom/system-stats": {
+    "exec": "python ~/.config/waybar/scripts/system-stats.py",
+    "return-type": "json",
+    "format": "{text}",
+    "interval": 3,
+    "tooltip": true,
+    "on-click": "alacritty -e htop",
+    "escape": false
+  },
+  "custom/sep": {
+    "format": "|",
     "tooltip": false
   }
 }

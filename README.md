@@ -1,3 +1,4 @@
+
 # Arch Linux Hyprland Dotfiles
 
 Configuración personalizada de Arch Linux con Hyprland para un flujo de trabajo productivo.
@@ -16,7 +17,14 @@ Configuración personalizada de Arch Linux con Hyprland para un flujo de trabajo
 # Instalar git y herramientas básicas
 sudo pacman -S git base-devel
 
-# Instalar yay (AUR helper)
+# Instalar (AUR )
+mkdir repos
+cd repos
+git clone https://aur.archlinux.org/paru-bin.git 
+cd paru-bin/
+makepkg -si
+"colocar la password del admin y pulsar S"
+#Instalar YAY (si lo necesita)
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si

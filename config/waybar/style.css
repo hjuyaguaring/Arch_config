@@ -1,107 +1,363 @@
 * {
-    /* `otf-font-awesome` and SpaceMono Nerd Font are required to be installed for icons */
-    font-family: "Fira Sans Semibold", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    transition: background-color .3s ease-out;
+  font-family: "FiraCode Nerd Font", "Google Sans", Roboto, sans-serif;
+  font-size: 12px;
+  /* font-weight: 400; */
+  border: none;
+  /* min-height: 0; */
 }
 
 window#waybar {
-    background: rgba(26, 27, 38, 0.75);
-    color: #c0caf5;
-    font-family: 
-        SpaceMono Nerd Font,
-        feather;
-    transition: background-color .5s;
+  background-color: transparent;
 }
 
+/* ===== CONTENEDORES PRINCIPALES ===== */
 .modules-left,
 .modules-center,
-.modules-right
-{
-    background: rgba(0, 0, 8, .7);
-    margin: 5px 5px;
-    padding: 0 5px;
-    border-radius: 15px;
-}
-.modules-left {
-    padding: 0;
-}
-.modules-center {
-    padding: 0 10px;
+.modules-right {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
 }
 
-#clock,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#wireplumber,
-#custom-media,
-#tray,
-#mode,
-#idle_inhibitor,
-#scratchpad,
-#power-profiles-daemon,
-#language,
-#mpd {
-    padding: 0 5px;
-    border-radius: 15px;
+/* ===== ICONO ARCH - ESTILO MATERIAL ===== */
+#custom-arch {
+  margin: 0;
+  /*Color para el icono de ARCH*/
+  color: #89b4fa;
+  /* Tamano del icono*/
+  font-size: 24px;
+  /*Distancia entre icono y #s de ventana*/
+  padding: 0 20px 0 10px;
+  /*Animacion de colores del icono*/
+  animation: icon-aurora 4s ease infinite;
 }
 
-#clock:hover,
-#battery:hover,
-#cpu:hover,
-#memory:hover,
-#disk:hover,
-#temperature:hover,
-#backlight:hover,
-#network:hover,
-#pulseaudio:hover,
-#wireplumber:hover,
-#custom-media:hover,
-#tray:hover,
-#mode:hover,
-#idle_inhibitor:hover,
-#scratchpad:hover,
-#power-profiles-daemon:hover,
-#language:hover,
-#mpd:hover {
-    background: rgba(26, 27, 38, 0.9);
+@keyframes icon-aurora {
+  0% {
+    color: #ff4500;
+  }
+
+  25% {
+    color: #ff00ff;
+  }
+
+  50% {
+    color: #8a2be2;
+  }
+
+  75% {
+    color: #00ffff;
+  }
+
+  100% {
+    color: #adff2f;
+  }
 }
 
+/* ===== WORKSPACES - DISEÑO DINÁMICO COMPATIBLE ===== */
+#workspaces {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
 
 #workspaces button {
-  background: transparent;
-  font-family:
-    SpaceMono Nerd Font,
-    feather;
-  font-weight: 900;
-  font-size: 13pt;
-  color: #c0caf5;
-  border:none;
-  border-radius: 15px;
+  padding: 0 4px;
+  margin: 10px;
+  border-radius: 50%;
+  background-color: #313244;
+  color: #a6adc8;
+  /* font-size: 8px; */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Workspace ACTIVO - PÍLDORA EXPANDIDA */
 #workspaces button.active {
-    background: #313134; 
+  margin: 10px 2px;
+  padding: 0;
+  background-color: #89b4fa;
+  color: #1e1e2e;
+  border-radius: 12px;
+  min-width: 100px;
 }
 
-#workspaces button:hover {
-  background: #11111b;
+/* Workspace URGENTE */
+#workspaces button.urgent {
+  background-color: #f38ba8;
+  animation: urgent-pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(243, 139, 168, 0.5);
+}
+
+@keyframes urgent-pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ===== MÓDULOS CENTRO - MATERIAL CARD ===== */
+#custom-music-visualizer-3d {
+  color: #a6e3a1;
+  padding: 0 20px;
+  margin: 10px 1px;
+  background-color: rgba(49, 50, 68, 0.8);
+  border-radius: 16px;
+  font-size: 10px;
+}
+
+#custom-music-visualizer-3d.playing {
+  background-color: rgba(166, 227, 161, 0.1);
+  border: 1px solid rgba(166, 227, 161, 0.3);
+  animation: music-glow 2s ease-in-out infinite;
+}
+
+@keyframes music-glow {
+  0% {
+    box-shadow: 0 2px 8px rgba(166, 227, 161, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 4px 16px rgba(166, 227, 161, 0.4);
+  }
+
+  100% {
+    box-shadow: 0 2px 8px rgba(166, 227, 161, 0.2);
+  }
+}
+
+/* ===== MÓDULOS DERECHA - CARDS MATERIAL ===== */
+#clock,
+#pulseaudio,
+#tray,
+#custom-notification,
+#custom-power,
+#battery,
+#network,
+#custom-bluetooth-enhanced,
+#custom-system-stats {
+  padding: 0 20px;
+  margin: 10px 1px;
+  border-radius: 14px;
+  background-color: rgba(49, 50, 68, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estilos para el módulo bluetooth enhanced */
+
+
+/* Bluetooth conectado - Azul vibrante */
+#custom-bluetooth-enhanced.connected {
+  color: #1976D2;
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.15), rgba(25, 118, 210, 0.05));
+  border: 1px solid rgba(25, 118, 210, 0.3);
+}
+
+#custom-bluetooth-enhanced.connected:hover {
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.25), rgba(25, 118, 210, 0.1));
+  /* transform: translateY(-1px); */
+}
+
+/* Bluetooth activo sin conexiones - Verde */
+#custom-bluetooth-enhanced.enabled {
+  color: #388E3C;
+  background: linear-gradient(135deg, rgba(56, 142, 60, 0.15), rgba(56, 142, 60, 0.05));
+  border: 1px solid rgba(56, 142, 60, 0.3);
+}
+
+#custom-bluetooth-enhanced.enabled:hover {
+  background: linear-gradient(135deg, rgba(56, 142, 60, 0.25), rgba(56, 142, 60, 0.1));
+  /* transform: translateY(-1px); */
+}
+
+/* Bluetooth desactivado - Gris */
+#custom-bluetooth-enhanced.disabled {
+  color: #616161;
+  background: linear-gradient(135deg, rgba(97, 97, 97, 0.1), rgba(97, 97, 97, 0.05));
+  border: 1px solid rgba(97, 97, 97, 0.2);
+}
+
+#custom-bluetooth-enhanced.disabled:hover {
+  background: linear-gradient(135deg, rgba(97, 97, 97, 0.2), rgba(97, 97, 97, 0.1));
+  /* transform: translateY(-1px); */
+}
+
+/* Error - Rojo */
+#custom-bluetooth-enhanced.error {
+  color: #D32F2F;
+  background: linear-gradient(135deg, rgba(211, 47, 47, 0.15), rgba(211, 47, 47, 0.05));
+  border: 1px solid rgba(211, 47, 47, 0.3);
+}
+
+#custom-bluetooth-enhanced.error:hover {
+  background: linear-gradient(135deg, rgba(211, 47, 47, 0.25), rgba(211, 47, 47, 0.1));
+}
+
+/* Bluetooth no disponible - Naranja */
+#custom-bluetooth-enhanced.missing {
+  color: #F57C00;
+  background: linear-gradient(135deg, rgba(245, 124, 0, 0.15), rgba(245, 124, 0, 0.05));
+  border: 1px solid rgba(245, 124, 0, 0.3);
+}
+
+#custom-bluetooth-enhanced.missing:hover {
+  background: linear-gradient(135deg, rgba(245, 124, 0, 0.25), rgba(245, 124, 0, 0.1));
+}
+
+/* Animación de pulso para estado conectado */
+#custom-bluetooth-enhanced.connected {
+  animation: bluetooth-pulse 2s infinite;
+}
+
+@keyframes bluetooth-pulse {
+
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Hover effects - Material elevation */
+#clock:hover,
+#pulseaudio:hover,
+#tray:hover,
+#custom-bluetooth-enhanced:hover,
+#custom-notification:hover,
+#custom-power:hover,
+#custom-system-stats:hover {
+  background-color: rgba(69, 71, 90, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== SYSTEM STATS ===== */
+#custom-system-stats {
+  /* margin-right: 4px; */
+  background-color: transparent;
+}
+
+/* ===== BLUETOOTH ENHANCED ===== */
+#custom-bluetooth-enhanced {
+  color: #89b4fa;
+}
+
+#custom-bluetooth-enhanced.enabled {
+  background-color: rgba(137, 180, 250, 0.1);
+  border: 1px solid rgba(137, 180, 250, 0.3);
+}
+
+#custom-bluetooth-enhanced.enabled-connected {
+  color: #a6e3a1;
+  background-color: rgba(166, 227, 161, 0.1);
+  border: 1px solid rgba(166, 227, 161, 0.3);
+  animation: connected-pulse 2s ease-in-out infinite;
+}
+
+@keyframes connected-pulse {
+  0% {
+    opacity: 0.8;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* ===== COLORES ESPECÍFICOS ===== */
+#clock {
+  color: #74c7ec;
+}
+
+#pulseaudio {
+  color: #b4befe;
+}
+
+#pulseaudio.muted {
+  color: #f38ba8;
+  animation: muted-blink 1s ease-in-out infinite;
+}
+
+@keyframes muted-blink {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+#tray {
+  padding: 4px 8px;
   color: #cdd6f4;
-  box-shadow: none;
 }
 
-#custom-arch {
-    margin-left: 5px;
-    padding: 0 10px;
-    font-size: 25px;
-    transition: color .5s;
+#custom-notification {
+  color: #f9e2af;
 }
-#custom-arch:hover {
-    color: #1793d1;
+
+#custom-power {
+  color: #f38ba8;
+  font-weight: 500;
+}
+
+#custom-power:hover {
+  background-color: rgba(243, 139, 168, 0.1);
+  border: 1px solid rgba(243, 139, 168, 0.3);
+}
+
+/* ===== TOOLTIPS MATERIAL ===== */
+tooltip {
+  background-color: rgba(24, 24, 37, 0.95);
+  border-radius: 8px;
+  border: 1px solid rgba(205, 214, 244, 0.1);
+  font-family: "FiraCode Nerd Font", monospace;
+  font-size: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+tooltip label {
+  color: #a6adc8;
+  margin: 4px 8px;
+}
+
+/* ===== ANIMACIONES GLOBALES ===== */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Aplicar fade-in a todos los módulos */
+#custom-arch,
+#workspaces,
+#custom-music-visualizer-3d,
+#clock,
+#pulseaudio,
+#tray,
+#custom-bluetooth-enhanced,
+#custom-notification,
+#custom-power,
+#custom-system-stats {
+  animation: fade-in 0.6s ease-out;
 }

@@ -91,6 +91,9 @@ return require('lazy').setup({
         ensure_installed = {
           'lua', 'vim', 'vimdoc',
           'python', -- Agregado Python
+          'html',
+          'css',
+          'json',
           -- 'javascript', 'typescript', 'html', 'css', 'ruby' -- Comentados por ahora
         },
         highlight = {
@@ -117,7 +120,7 @@ return require('lazy').setup({
           mappings = {
             i = {
               ['<C-k>'] = require('telescope.actions').move_selection_previous,
-              ['<C-j>'] = require('telescope.actions').move_selection_next,
+              ['<C-x>'] = require('telescope.actions').move_selection_next,
               -- ['<C-q>'] = require('telescope.actions').send_selected_to_qflist,
             },
           },
@@ -136,7 +139,7 @@ return require('lazy').setup({
       require('mason').setup()
     end,
   },
-
+  -- === HEXADECIMAL COLOR ===
   {
     'williamboman/mason-lspconfig.nvim',
     dependencies = 'williamboman/mason.nvim',
@@ -145,14 +148,14 @@ return require('lazy').setup({
         ensure_installed = {
           'lua_ls',  -- Lua
           'pyright', -- Python (descomentado)
-          -- 'clangd',     -- C/C++
+          'clangd',  -- C/C++
           -- 'jdtls',      -- Java
           -- 'gopls',      -- GO
           -- 'dartls',     -- Dart/Flutter
           -- 'tsserver',   -- TypeScript/JavaScript
-          -- 'html',       -- HTML
-          -- 'cssls',      -- CSS
-          -- 'jsonls',     -- JSON
+          'html',   -- HTML
+          'cssls',  -- CSS
+          'jsonls', -- JSON
           -- 'solargraph', -- Ruby
           -- 'rust_analyzer',-- Rust
         }
@@ -250,9 +253,9 @@ return require('lazy').setup({
   --  ft = 'dart',
   --},
   --
-  --{
-  --  'b0o/schemastore.nvim',  -- Para JSON schemas
-  --},
+  {
+    'b0o/schemastore.nvim', -- Para JSON schemas
+  },
 
   -- === FORMATTING ===
   {
@@ -264,9 +267,9 @@ return require('lazy').setup({
           python = { 'black', 'isort' },
           -- javascript = { 'prettier' },
           -- typescript = { 'prettier' },
-          -- html = { 'prettier' },
-          -- css = { 'prettier' },
-          -- json = { 'jq' },
+          html = { 'prettier' },
+          css = { 'prettier' },
+          json = { 'jq' },
         },
         format_on_save = {
           timeout_ms = 500,
@@ -334,4 +337,42 @@ return require('lazy').setup({
       })
     end,
   },
+  -- === NVIM-COLORIZER (VISUALIZADOR DE COLORES HEX) ===
+  {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup({
+        '*', -- Todos los archivos
+        -- Configuraciones específicas por tipo de archivo
+        css = {
+          rgb_fn = true,    -- Mostrar funciones rgb()
+          hsl_fn = true,    -- Mostrar funciones hsl()
+          names = true,     -- Mostrar nombres de colores
+          mode = 'background' -- 'foreground' o 'background'
+        },
+        javascript = {
+          mode = 'foreground' -- Solo color de texto
+        },
+        html = {
+          names = false, -- No mostrar nombres
+          mode = 'background'
+        },
+        -- Excluir buffers especiales
+        exclude = {
+          'NvimTree',
+          'TelescopePrompt',
+          'TelescopeResults',
+          'packer',
+          'Trouble',
+          'alpha'
+        },
+      })
+
+      -- Habilitar inmediatamente para todos los buffers
+      vim.defer_fn(function()
+        require('colorizer').attach_to_buffer(0)
+      end, 0)
+    end,
+    event = "BufRead",
+  }
 })

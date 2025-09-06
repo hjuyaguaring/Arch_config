@@ -132,32 +132,28 @@ lspconfig.tsserver.setup({
 })
 --]]
 
---[[
 -- HTML
 lspconfig.html.setup({
-    capabilities = capabilities,
+  capabilities = capabilities,
 })
---]]
 
---[[
 -- CSS
 lspconfig.cssls.setup({
-    capabilities = capabilities,
+  capabilities = capabilities,
 })
---]]
 
---[[
+
 -- JSON
 lspconfig.jsonls.setup({
-    capabilities = capabilities,
-    settings = schemastore_ok and {
-        json = {
-            schemas = schemastore.json.schemas(),
-            validate = { enable = true },
-        }
-    } or nil
+  capabilities = capabilities,
+  settings = schemastore_ok and {
+    json = {
+      schemas = schemastore.json.schemas(),
+      validate = { enable = true },
+    }
+  } or nil
 })
---]]
+
 
 --[[
 -- Ruby
